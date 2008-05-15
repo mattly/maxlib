@@ -5,19 +5,10 @@ These are bits and pieces of my library of tools (abstractions, jsui widgets, et
 ## Abstractions
 
 - mattly.monome
-  > Basic front-end for talking to a Monome. Sets the OSC prefix to /monome and looks for
-  button presses. Send it messages via the inlet and the prefixing is taken care of for you.  
-  
-  > _Hint_: Send it's output through [prefix led] and back into it's input, and you've got
-  instant feedback when you press a button.
+  > Basic front-end for talking to a Monome. Sets the OSC prefix to /monome and looks for button presses. Send it messages via the inlet and the prefixing is taken care of for you.  
 
 - mattly.subgrid
-  > Divide a large grid into smaller ones. See the help patcher. Designed for use with a
-  monome but could be used in other contexts.
-  
-  > **use**: _[mattly.subgrid top-left-col top-left-row bottom-right-col bottom-right-row]_
-  
-  > For example: [mattly.subgrid 0 0 3 3] grabs the top-left-most 16 buttons.
+  > Divide a large grid into smaller ones, then put it back together again. Designed for use with a monome but could be used in other contexts.
   
 ## License
 
