@@ -45,7 +45,14 @@ function save() {
   embedmessage("velocity", velocity)
 }
 
-function clear() { notes = new Array(128) }
+function clear() { 
+  notes = new Array(128)
+  for(row=rows-1; row>=0; row--) {
+    for(col=cols-1; col>=0; col--) {
+      outlet(0, col, row, 0)
+    }
+  }
+}
 
 // Meat and Potatoes
 function list() {
