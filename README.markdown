@@ -1,15 +1,21 @@
 # Mattly's Max Library
 
-These are bits and pieces of my library of tools (abstractions, jsui widgets, etc) for creating max patches. These require Max/MSP 5.0.0 or later. 
+These are bits and pieces of my library of tools (abstractions, jsui widgets, etc) for creating [Max/MSP](http://cycling74.com/products/max5) patches. They require Max/MSP 5.0.x or later. 
 
 ## Abstractions
 
-- mattly.monome
-  > Basic front-end for talking to a Monome. Sets the OSC prefix to /monome and looks for button presses. Send it messages via the inlet and the prefixing is taken care of for you.  
+- mattly.gridboard.js
+  > Turns coordinates into notes and notes into coordinates. Works similar to the keyboard aspect of stretta's "fourths" patch, but can display notes from external sources.
 
-- mattly.subgrid
+- mattly.monome
+  > Basic front-end for talking to a Monome. Uses an OSC prefix of /monome and looks for button presses. Send it messages via the inlet and the prefixing is taken care of for you.  
+
+- mattly.subgrid.js
   > Divide a large grid into smaller ones, then put it back together again. Designed for use with a monome but could be used in other contexts.
-  
+
+- mattly.symjoin.js
+  > Concatenates a message into a symbol.
+
 ## License
 
 Copyright (c) 2008 Matt Lyon
