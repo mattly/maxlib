@@ -1,48 +1,81 @@
 // mattly.gridboard.js by Matt Lyon
 // turns coordinates into notes and notes into coordinates
 
-post("mattly.gridboard (c) Matt Lyon 2008\n")
+post("mattly.gridboard (c) Matt Lyon 2008\n");
+autowatch = 1;
 
-// Max Setup
-inlets = 2
-setinletassist(0, "From Grid")
-setinletassist(1, "From Midi")
+// Setup
+inlets = 2;
+setinletassist(0, "From Grid");
+setinletassist(1, "From Midi");
 
-outlets = 2
-setoutletassist(0, "To Grid")
-setoutletassist(1, "To Midi")
+outlets = 2;
+setoutletassist(0, "To Grid");
+setoutletassist(1, "To Midi");
 
-// Attributes
-var rows = 8
-var cols = 16
-var stepX = 2
-var stepY = 5
-var baseNote = 24
-var velocity = 100
+// Gridboard
+gridboard = {
+  rows: 8,
+  cols: 16,
+  x: 2,
+  y: 5,
+  basenote: 36,
+  velocity: 100,
+  notes: new Array(128),
 
-var notes = new Array(128)
-bang()
+  press: function(col, row, val) {
+    var thisNote = ((this.rows - row - 1) * this.y) + (col * this.x) + this.basenote;
+    this.light(thisNote, val);
+    this.noteOut(thisNote, val * this.velocity);
+  },
 
-function set_stepx(val)     { stepX = val;    bang() }
-function set_stepy(val)     { stepY = val;    bang() }
-function set_rows(val)      { rows = val;     bang() }
-function set_cols(val)      { cols = val;     bang() }
-function set_base(val)      { baseNote = val; bang() }
-function set_velocity(val)  { velocity = val; bang() }
-
-function bang() { post("gridboard: ", cols, 'x', rows, '\n') }
-
-function save() {
-  embedmessage("set_rows", rows)
-  embedmessage("set_cols", cols)
-  embedmessage("set_stepx", stepX)
-  embedmessage("set_stepy", stepY)
-  embedmessage("set_base", baseNote)
-  embedmessage("set_velocity", velocity)
+  light: function(note, vel) {
+    var value = (vel == 0) ? 0 : 1;
+    this.stack(note, value);
+    if ( value == 0 && this.notes[note] == 0 ) { this.noteToCoords(note); }
+    else if ( value == 1 && this.notes[note] == 1 ) { this.noteToCoords(note); }
+  },
+  noteToCoords: function(note, on) {
+    for (row = 0; row < this.rows; row++) {
+      var col = ((note - this.basenote) - (row * this.y)) / (this.x * 1.0);
+      if (col < this.cols && col > -1 && Math.round(col) == col) {
+        this.lightSwitch(col, row, this.notes[note]);
+      }
+    }
+  },
+  lightSwitch: function(col, row, on) { 
+    outlet(0, col, (this.rows - row - 1), on != 0); 
+  },
+  
+  noteOut: function(note, vel) {
+    outlet(1, note, vel);
+  },
+  
+  stack: function(note, value) {
+    this.notes[note] = Math.floor( (this.notes[note] || 0) + ((value == 0) ? -1 : 1), 0 )
+  }
 }
 
-function clear() { 
-  notes = new Array(128)
+// Attribute Setters
+function stepx(val)     { gridboard.x = val; }
+function stepy(val)     { gridboard.y = val; }
+function rows(val)      { gridboard.rows = val; }
+function cols(val)      { gridboard.cols = val; }
+function basenote(val)  { gridboard.basenote = val; }
+function velocity(val)  { gridboard.velocity = val; }
+
+function save() {
+  embedmessage("rows", gridboard.rows);
+  embedmessage("cols", gridboard.cols);
+  embedmessage("stepx", gridboard.x);
+  embedmessage("stepy", gridboard.y);
+  embedmessage("basenote", gridboard.basenote);
+  embedmessage("velocity", gridboard.velocity);
+}
+
+// Panic Button
+function clear() {
+  gridboard.notes = new Array(128)
   for(row=rows-1; row>=0; row--) {
     for(col=cols-1; col>=0; col--) {
       outlet(0, col, row, 0)
@@ -50,34 +83,14 @@ function clear() {
   }
 }
 
-// Meat and Potatoes
+// Stock-Standard Max
 function list() {
   switch(inlet) {
   case 0:
-    press(arguments[0], arguments[1], arguments[2])
-    break
+    gridboard.press(arguments[0], arguments[1], arguments[2]);
+    break;
   case 1:
-    light(arguments[0], arguments[1])
-    break
-  }
-}
-
-function press(col, row, value) {
-  var thisNote = ((rows - row - 1) * stepY) + (col * stepX) + baseNote
-  light(thisNote, value)
-  outlet(1, thisNote, value * velocity)
-}
-
-function light(note, velocity) {
-  var value = (velocity == 0) ? 0 : 1
-  notes[note] = Math.floor((notes[note] || 0) + ((value == 0) ? -1 : 1), 0)
-  
-  if ((value == 0 && notes[note] == 0) || (value == 1 && notes[note] == 1)) {
-    for(row=0; row<rows; row++) {
-      var col = ((note - baseNote) - (row * stepY)) / (stepX * 1.0)
-      if (col < cols && col > -1 && Math.round(col) == col) { 
-        outlet(0, col, (rows - row - 1), notes[note]) 
-      }
-    }
+    gridboard.light(arguments[0], arguments[1]);
+    break;
   }
 }
