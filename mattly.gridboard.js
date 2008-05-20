@@ -1,7 +1,7 @@
 // mattly.gridboard.js by Matt Lyon
 // turns coordinates into notes and notes into coordinates
 
-post("mattly.gridboard (c) Matt Lyon 2008")
+post("mattly.gridboard (c) Matt Lyon 2008\n")
 
 // Max Setup
 inlets = 2
@@ -20,29 +20,25 @@ var stepY = 5
 var baseNote = 24
 var velocity = 100
 
-declareattribute("rows", null, "rows", 1)
-declareattribute("cols", null, "cols", 1)
-declareattribute("stepx", null, "stepx", 1)
-declareattribute("stepy", null, "stepy", 1)
-declareattribute("baseNote", null, "basenote", 1)
-declareattribute("velocity", null, "velocity", 1)
-
 var notes = new Array(128)
+bang()
 
-function stepx(val) { stepX = val }
-function stepy(val) { stepY = val }
-function rows(val)  { rows = val }
-function cols(val)  { cols = val }
-function base(val)  { baseNote = val }
-function velocity(val) { velocity = val }
+function set_stepx(val)     { stepX = val;    bang() }
+function set_stepy(val)     { stepY = val;    bang() }
+function set_rows(val)      { rows = val;     bang() }
+function set_cols(val)      { cols = val;     bang() }
+function set_base(val)      { baseNote = val; bang() }
+function set_velocity(val)  { velocity = val; bang() }
+
+function bang() { post("gridboard: ", cols, 'x', rows, '\n') }
 
 function save() {
-  embedmessage("rows", rows)
-  embedmessage("cols", cols)
-  embedmessage("stepx", stepX)
-  embedmessage("stepy", stepY)
-  embedmessage("base", baseNote)
-  embedmessage("velocity", velocity)
+  embedmessage("set_rows", rows)
+  embedmessage("set_cols", cols)
+  embedmessage("set_stepx", stepX)
+  embedmessage("set_stepy", stepY)
+  embedmessage("set_base", baseNote)
+  embedmessage("set_velocity", velocity)
 }
 
 function clear() { 
