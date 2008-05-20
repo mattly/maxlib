@@ -14,7 +14,7 @@ setoutletassist(0, "To Grid");
 setoutletassist(1, "To Midi");
 
 // Gridboard
-gridboard = {
+var gridboard = {
   rows: 8,
   cols: 16,
   x: 2,
