@@ -7,8 +7,14 @@ These are bits and pieces of my library of tools (abstractions, jsui widgets, et
 - mattly.gridboard.js
   > Turns coordinates into notes and notes into coordinates. Works similar to the keyboard aspect of stretta's "fourths" patch, but can display notes from external sources.
 
+- mattly.gridpages.js
+  > Manages several grids via one master one.
+
 - mattly.monome
   > Basic front-end for talking to a Monome. Uses an OSC prefix of /monome and looks for button presses. Send it messages via the inlet and the prefixing is taken care of for you.  
+
+- mattly.ledgrid.js
+  > a someone misleadly-named grid controller. in addition to turning "x y 0" messages into "led x y 0", it can also take "x y blink 4" messages and cause that light to blink 4 times per second.
 
 - mattly.subgrid.js
   > Divide a large grid into smaller ones, then put it back together again. Designed for use with a monome but could be used in other contexts.
