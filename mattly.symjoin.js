@@ -14,7 +14,7 @@ var joinStr = jsarguments[1] || ''
 
 function setJoin(str) {
   joinStr = str;
-}setJoin.local=1
+}setJoin.local=1;
 
 function anything() {
   switch(inlet) {
