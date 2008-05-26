@@ -54,8 +54,7 @@ var ledGrid = {
   
   toggleTask: function(col, row, on, off) {
     this.toggle(col, row);
-    if (this.get(col, row)) { arguments.callee.task.interval = off; }
-    else { arguments.callee.task.interval = on; }
+    arguments.callee.task.interval = (this.get(col, row)) ? off : on;
   },
   
   blink: function(col, row, rateOn, percentOn) {
