@@ -4,6 +4,10 @@ These are bits and pieces of my library of tools (abstractions, jsui widgets, et
 
 ## Abstractions
 
+- mattly.cc.mapped
+- mattly.cc.mapper
+  > A 1-to-1 Global MIDI-learn system for CC controls that works similar to Ableton Live.
+
 - mattly.gridboard.js
   > Turns coordinates into notes and notes into coordinates. Works similar to the keyboard aspect of stretta's "fourths" patch, but can display notes from external sources.
 
